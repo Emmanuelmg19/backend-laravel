@@ -50,4 +50,14 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Level::class);
     }
+
+    public function groups()
+    {
+        return $this->belongsToMany(Group::class)->withTimestamps();
+    }
+
+    public function location()
+    {
+        return $this->hasOneThrough(Location::class, Profile::class);
+    }
 }
