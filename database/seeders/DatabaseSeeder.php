@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\Group;
+use App\Models\Level;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -13,11 +15,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+    
+        Group::factory()->count(3)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        Level::factory()->create(['name' => 'Oro']);
+        Level::factory()->create(['name' => 'Plata']);
+        Level::factory()->create(['name' => 'Bronce']);
     }
 }
+
