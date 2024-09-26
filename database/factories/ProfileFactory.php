@@ -19,7 +19,7 @@ class ProfileFactory extends Factory
         return [
             'instagram' => $this->faker->userName,
             'github' => $this->faker->userName,
-            'web' => $this->faker->web,
+            'web' => $this->faker->url,
         ];
     }
 }

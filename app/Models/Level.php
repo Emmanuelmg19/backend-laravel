@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Level extends Model
 {
+    use HasFactory; // Añade el trait HasFactory para habilitar el uso de factories
+
     public function users()
     {
         return $this->hasMany(User::class);

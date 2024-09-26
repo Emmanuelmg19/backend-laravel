@@ -16,7 +16,7 @@ return new class extends Migration
 
             $table->bigInteger('user_id')->unsigned();
 
-            $table->text('body');
+            $table->text('name');
 
             $table->morphs('commentable');
 

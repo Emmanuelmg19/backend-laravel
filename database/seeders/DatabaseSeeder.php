@@ -8,7 +8,11 @@ use App\Models\Level;
 use App\Models\Profile;
 use App\Models\Location;
 use App\Models\Image;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Category;
+use App\Models\Post;
+use App\Models\Video;
+use App\Models\Tag;
+use App\Models\Comment;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -18,18 +22,22 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // Crear grupos
         Group::factory()->count(3)->create();
 
+        // Crear niveles
         Level::factory()->create(['name' => 'Oro']);
         Level::factory()->create(['name' => 'Plata']);
         Level::factory()->create(['name' => 'Bronce']);
 
+        // Crear tags
+        $tags = Tag::factory()->count(12)->create();
+
+        // Crear usuarios con perfil, ubicación, y grupo
         User::factory()->count(5)->create()->each(function ($user) {
-            
             $profile = $user->profile()->save(Profile::factory()->make());
             $profile->location()->save(Location::factory()->make());
 
-            
             $user->groups()->attach($this->array(rand(1, 3)));
 
             $user->image()->save(Image::factory()->make([
@@ -37,34 +45,31 @@ class DatabaseSeeder extends Seeder
             ]));
         });
 
-        factory(App\Category::class, 4)->create;
-        factory(App\Post::class, 12)->create;
+        // Crear categorías y posts
+        Category::factory()->count(4)->create();
+        Post::factory()->count(12)->create();
 
-        factory(App\Post::class, 40)->create()->each(function ($post) {
-
-            $post->image()->save(save(factory(App\Image::class)->make));
-            $post->tags()->attach($this->array(rand(1,12)));
+        // Crear posts con imagen, tags y comentarios
+        Post::factory()->count(40)->create()->each(function ($post) use ($tags) {
+            $post->image()->save(Image::factory()->make());
+            $post->tags()->attach($tags->random(rand(1, 12))->pluck('id')->toArray());
 
             $number_comments = rand(1, 6);
-
-            for ($i=0; $i < $number_comments ; $i++) { 
-                $post->comments()->save(factory(App\Comment::class)->make());
+            for ($i = 0; $i < $number_comments; $i++) {
+                $post->comments()->save(Comment::factory()->make());
             }
-
         });
 
-        factory(App\Video::class, 40)->create()->each(function ($post) {
-
-            $video->image()->save(save(factory(App\Image::class)->make));
-            $video->tags()->attach($this->array(rand(1,12)));
+        // Crear videos con imagen, tags y comentarios
+        Video::factory()->count(40)->create()->each(function ($video) use ($tags) {
+            $video->image()->save(Image::factory()->make());
+            $video->tags()->attach($tags->random(rand(1, 12))->pluck('id')->toArray());
 
             $number_comments = rand(1, 6);
-
-            for ($i=0; $i < $number_comments ; $i++) { 
-                $video->comments()->save(factory(App\Comment::class)->make());
+            for ($i = 0; $i < $number_comments; $i++) {
+                $video->comments()->save(Comment::factory()->make());
             }
-
-        });   
+        });
     }
 
     public function array($max)
@@ -78,3 +83,4 @@ class DatabaseSeeder extends Seeder
         return $values;
     }
 }
+

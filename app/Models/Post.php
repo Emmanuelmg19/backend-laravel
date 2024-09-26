@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
+    use HasFactory; // Incluye este trait
+
     public function user()
     {
         return $this->belongsTo(User::class);

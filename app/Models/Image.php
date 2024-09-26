@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Image extends Model
 {
+    use HasFactory; // Incluye este trait
+
     public function imageable()
     {
         return $this->morphTo();
