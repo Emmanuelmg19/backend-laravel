@@ -36,6 +36,35 @@ class DatabaseSeeder extends Seeder
                 'url' => 'https://lorempixel.com/90/90/'
             ]));
         });
+
+        factory(App\Category::class, 4)->create;
+        factory(App\Post::class, 12)->create;
+
+        factory(App\Post::class, 40)->create()->each(function ($post) {
+
+            $post->image()->save(save(factory(App\Image::class)->make));
+            $post->tags()->attach($this->array(rand(1,12)));
+
+            $number_comments = rand(1, 6);
+
+            for ($i=0; $i < $number_comments ; $i++) { 
+                $post->comments()->save(factory(App\Comment::class)->make());
+            }
+
+        });
+
+        factory(App\Video::class, 40)->create()->each(function ($post) {
+
+            $video->image()->save(save(factory(App\Image::class)->make));
+            $video->tags()->attach($this->array(rand(1,12)));
+
+            $number_comments = rand(1, 6);
+
+            for ($i=0; $i < $number_comments ; $i++) { 
+                $video->comments()->save(factory(App\Comment::class)->make());
+            }
+
+        });   
     }
 
     public function array($max)
