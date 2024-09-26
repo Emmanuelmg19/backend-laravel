@@ -54,7 +54,7 @@ class DatabaseSeeder extends Seeder
         Post::factory()->count(40)->create()->each(function ($post) use ($tags) {
             // Guardar imagen del post
             $post->image()->create([
-                'url' => 'https://picsum.photos/1024/768/',
+                'url' => 'https://picsum.photos/1024/768?random=' . rand(1, 1000) . '&t=' . time(),
             ]);
 
             // Asignar tags
@@ -71,7 +71,7 @@ class DatabaseSeeder extends Seeder
         Video::factory()->count(40)->create()->each(function ($video) use ($tags) {
             // Guardar imagen del video
             $video->image()->create([
-                'url' => 'https://lorempixel.com/1024/768/',
+                'url' => 'https://picsum.photos/1024/766?random=' . rand(1, 1000) . '&t=' . time(),
             ]);
 
             // Asignar tags
