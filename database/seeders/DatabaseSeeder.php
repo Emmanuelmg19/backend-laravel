@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Group;
 use App\Models\Level;
@@ -13,7 +14,6 @@ use App\Models\Post;
 use App\Models\Video;
 use App\Models\Tag;
 use App\Models\Comment;
-use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -33,42 +33,55 @@ class DatabaseSeeder extends Seeder
         // Crear tags
         $tags = Tag::factory()->count(12)->create();
 
-        // Crear usuarios con perfil, ubicación, y grupo
+        // Crear usuarios con perfil, ubicación, grupo e imagen
         User::factory()->count(5)->create()->each(function ($user) {
             $profile = $user->profile()->save(Profile::factory()->make());
             $profile->location()->save(Location::factory()->make());
 
+            // Asignar grupos
             $user->groups()->attach($this->array(rand(1, 3)));
 
-            $user->image()->save(Image::factory()->make([
-                'url' => 'https://lorempixel.com/90/90/'
-            ]));
+            // Guardar imagen polimórfica
+            $user->image()->create([
+                'url' => 'https://picsum.photos/90/90/',
+            ]);
         });
 
-        // Crear categorías y posts
+        // Crear categorías
         Category::factory()->count(4)->create();
-        Post::factory()->count(12)->create();
 
         // Crear posts con imagen, tags y comentarios
         Post::factory()->count(40)->create()->each(function ($post) use ($tags) {
-            $post->image()->save(Image::factory()->make());
+            // Guardar imagen del post
+            $post->image()->create([
+                'url' => 'https://picsum.photos/1024/768/',
+            ]);
+
+            // Asignar tags
             $post->tags()->attach($tags->random(rand(1, 12))->pluck('id')->toArray());
 
-            $number_comments = rand(1, 6);
-            for ($i = 0; $i < $number_comments; $i++) {
-                $post->comments()->save(Comment::factory()->make());
-            }
+            // Guardar comentarios
+            Comment::factory()->count(rand(1, 6))->create([
+                'commentable_id' => $post->id,
+                'commentable_type' => Post::class,
+            ]);
         });
 
         // Crear videos con imagen, tags y comentarios
         Video::factory()->count(40)->create()->each(function ($video) use ($tags) {
-            $video->image()->save(Image::factory()->make());
+            // Guardar imagen del video
+            $video->image()->create([
+                'url' => 'https://lorempixel.com/1024/768/',
+            ]);
+
+            // Asignar tags
             $video->tags()->attach($tags->random(rand(1, 12))->pluck('id')->toArray());
 
-            $number_comments = rand(1, 6);
-            for ($i = 0; $i < $number_comments; $i++) {
-                $video->comments()->save(Comment::factory()->make());
-            }
+            // Guardar comentarios
+            Comment::factory()->count(rand(1, 6))->create([
+                'commentable_id' => $video->id,
+                'commentable_type' => Video::class,
+            ]);
         });
     }
 

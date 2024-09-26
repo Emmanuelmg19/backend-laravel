@@ -20,7 +20,9 @@ class ImageFactory extends Factory
     public function definition(): array
     {
         return [
-            'url' => $this->faker->imageUrl(1024, 1024), 
+            'url' => $this->faker->imageUrl(1024, 1024),
+            'imageable_id' => null,  // Será especificado en el momento de la creación
+            'imageable_type' => null, // Será especificado en el momento de la creación
         ];
     }
 }
