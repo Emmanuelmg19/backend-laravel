@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
-    use HasFactory; // Incluye este trait
+    use HasFactory; 
 
     public function user()
     {

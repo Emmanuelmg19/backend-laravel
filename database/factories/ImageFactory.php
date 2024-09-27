@@ -21,8 +21,8 @@ class ImageFactory extends Factory
     {
         return [
             'url' => $this->faker->imageUrl(1024, 1024),
-            'imageable_id' => null,  // Será especificado en el momento de la creación
-            'imageable_type' => null, // Será especificado en el momento de la creación
+            'imageable_id' => null,  
+            'imageable_type' => null, 
         ];
     }
 }
