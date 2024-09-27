@@ -39,7 +39,8 @@ class DatabaseSeeder extends Seeder
             $profile->location()->save(Location::factory()->make());
 
             // Asignar grupos
-            $user->groups()->attach($this->array(rand(1, 3)));
+            $user->groups()->attach(Group::all()->random(rand(1, 2))->pluck('id')->toArray());
+
 
             // Guardar imagen polimórfica
             $user->image()->create([
@@ -54,7 +55,7 @@ class DatabaseSeeder extends Seeder
         Post::factory()->count(40)->create()->each(function ($post) use ($tags) {
             // Guardar imagen del post
             $post->image()->create([
-                'url' => 'https://picsum.photos/1024/768?random=' . rand(1, 1000) . '&t=' . time(),
+                'url' => 'https://picsum.photos/1090/800?random=' . rand(1, 1000) . '&t=' . time(),
             ]);
 
             // Asignar tags
@@ -71,7 +72,7 @@ class DatabaseSeeder extends Seeder
         Video::factory()->count(40)->create()->each(function ($video) use ($tags) {
             // Guardar imagen del video
             $video->image()->create([
-                'url' => 'https://picsum.photos/1024/766?random=' . rand(1, 1000) . '&t=' . time(),
+                'url' => 'https://picsum.photos/1090/800?random=' . rand(1, 1000) . '&t=' . time(),
             ]);
 
             // Asignar tags
